@@ -1,0 +1,30 @@
+<div class="container-fluid">
+    <div class="row justify-content-start">
+        <div class="col-md-4">
+            <form action="/categories/add" method="post">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="categoryName">Category name</label>
+                        <input type="text" class="form-control" name="categoryName" id="categoryName"
+                            placeholder="Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="categoryimg">Category image</label>
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input type="text" class="form-control" id="categoryimg" name="categoryImg">
+                                {{!-- <label class="custom-file-label" for="exampleInputFile">Choose file</label> --}}
+                            </div>
+                            {{!-- <div class="input-group-append">
+                                <span class="input-group-text">Upload</span>
+                            </div> --}}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
