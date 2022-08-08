@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const { create } = require('express-handlebars')
 const uri = 'mongodb://localhost:27017/e-commerce'
 const path = require('path')
+const session = require('express-session')
 
 // require routes
 const homeRouter = require('./routes/home')
@@ -11,6 +12,10 @@ const categoriesRouter = require('./routes/categories')
 const adminsRouter = require('./routes/admins')
 const productsRouter = require('./routes/products')
 const usersRouter = require('./routes/users')
+const authRouter = require('./routes/auth')
+
+// require middlewares
+const adminMiddleware = require('./middleware/admin')
 
 const hbs = create({
     extname: 'hbs',
@@ -42,12 +47,22 @@ app.use(express.json())
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.urlencoded({ extended: true }))
 
+app.use(session({   
+    secret: process.env.SESSION_KEY || 'secretkey',
+    resave: false,
+    saveUninitialized: false,
+}))
+
+// admin use middleware 
+app.use(adminMiddleware)
+
 //routing
 app.use('/', homeRouter)
 app.use('/categories', categoriesRouter)
 app.use('/admins', adminsRouter)
 app.use('/products', productsRouter)
 app.use('/users', usersRouter)
+app.use('/auth', authRouter)
 
 const port = normalizePort(process.env.PORT || 3000)
 app.set('port', port)
