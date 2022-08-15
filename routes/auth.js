@@ -7,7 +7,8 @@ const rounds = 10
 router.get('/login', (req, res) => {
     res.render('login', {
         title: 'Login',
-        layout: 'auth'
+        layout: 'auth',
+        msg: req.flash('error')
     })
 })
 
@@ -25,7 +26,8 @@ router.post('/register', async (req, res) => {
         fullName: req.body.fullName,
         password: hashPassword,
         image: req.body.image || '',
-        email: req.body.email
+        email: req.body.email,
+        status: req.body.status || null
     })
 
     await admin.save()
@@ -36,13 +38,15 @@ router.post('/login', async (req, res) => {
     const admin = await Admin.findOne({ email: req.body.email }) // 
 
     if (!admin) {
-        return res.status(400).send('This email not found')
+        req.flash('error', 'Incorrect email')
+        return res.redirect('/auth/login')
     }
 
     const compare = await bcrypt.compare(req.body.password, admin.password)
 
     if (!compare) {
-        return res.status(400).send('Password is incorrect')
+        req.flash('error', 'Incorrect password')
+        return res.redirect('/auth/login')
     }
 
     req.session.auth = true
@@ -51,6 +55,17 @@ router.post('/login', async (req, res) => {
         if (err) throw new Error(err)
         return res.redirect('/')
     })
+})
+
+router.get('/logout', async (req, res) => {
+    try {
+        await req.session.destroy((err) => {
+            if (err) throw new Error(err)
+            res.redirect('/auth/login')
+        })
+    } catch (error) {
+        return res.status(400).send(error)
+    }
 })
 
 module.exports = router

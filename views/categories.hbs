@@ -1,6 +1,8 @@
 <div class="content-header" style="display: flex; justify-content: space-between;">
     <h1>{{title}}</h1>
+    {{#if admin.moderator}}
     <a href="/categories/add" class="btn btn-success btn-sm" style="margin-right: 15px;">Create</a>
+    {{/if}}
 </div>
 
 
