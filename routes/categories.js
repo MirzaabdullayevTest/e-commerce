@@ -10,7 +10,6 @@ router.get('/', async (req, res) => {
     })
 })
 
-
 router.get('/add', (req, res) => {
     res.render('categoryAdd', {
         title: 'Create new category'

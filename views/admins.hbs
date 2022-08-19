@@ -1,1 +1,20 @@
 <h1>{{title}}</h1>
+<table>
+    <thead>
+        <th>FullName</th>
+        <th>Img</th>
+        <th>Status</th>
+        <th>Action</th>
+    </thead>
+
+    <tbody>
+        {{#each admins}}
+        <tr>
+            <td>{{fullName}}</td>
+            <td>{{image}}</td>
+            <td>{{status}}</td>
+            <th><a href="/admins/remove/{{id}}">Delete</a></th>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

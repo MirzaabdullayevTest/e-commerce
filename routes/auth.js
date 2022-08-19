@@ -3,6 +3,7 @@ const router = Router()
 const Admin = require('../model/admin')
 const bcrypt = require('bcrypt');
 const rounds = 10
+const upload = require('../middleware/file')
 
 router.get('/login', (req, res) => {
     res.render('login', {
@@ -19,13 +20,12 @@ router.get('/register', (req, res) => {
     })
 })
 
-router.post('/register', async (req, res) => {
+router.post('/register', upload.single('image'), async (req, res) => {
     const hashPassword = await bcrypt.hash(req.body.password, rounds)
-
     const admin = new Admin({
         fullName: req.body.fullName,
         password: hashPassword,
-        image: req.body.image || '',
+        image: req.file.filename || '',
         email: req.body.email,
         status: req.body.status || null
     })
