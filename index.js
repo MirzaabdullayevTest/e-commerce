@@ -8,8 +8,10 @@ require('./helper/session')(app, uri)
 require('./helper/db')(uri)
 require('./utils/flash')(app)
 
+
 // routes
 require('./start/routes')(app)
+require('./start/logging')(uri)
 
 app.set('port', require('./utils/normalizePort')(process.env.PORT || 3000))
 

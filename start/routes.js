@@ -1,3 +1,4 @@
+require('express-async-errors')
 const express = require('express')
 const { create } = require('express-handlebars')
 const path = require('path')
@@ -14,6 +15,7 @@ const authRouter = require('../routes/auth')
 const adminMiddleware = require('../middleware/admin')
 const isAuth = require('../middleware/isAuth')
 const error = require('../middleware/error')
+const handleError = require('../middleware/handleError')
 
 const hbs = create({
     extname: 'hbs',
@@ -44,6 +46,9 @@ module.exports = (app) => {
     app.use('/admins', adminsRouter)
     app.use('/products', productsRouter)
     app.use('/users', usersRouter)
+
+    // handle middleware
+    app.use(handleError)
 
     // error 404
     app.use(error)

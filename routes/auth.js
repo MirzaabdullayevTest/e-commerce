@@ -58,14 +58,10 @@ router.post('/login', async (req, res) => {
 })
 
 router.get('/logout', async (req, res) => {
-    try {
-        await req.session.destroy((err) => {
-            if (err) throw new Error(err)
-            res.redirect('/auth/login')
-        })
-    } catch (error) {
-        return res.status(400).send(error)
-    }
+    await req.session.destroy((err) => {
+        if (err) throw new Error(err)
+        res.redirect('/auth/login')
+    })
 })
 
 module.exports = router

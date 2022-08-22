@@ -3,6 +3,7 @@ const router = Router()
 const Category = require('../model/category')
 
 router.get('/', async (req, res) => {
+    
     const categories = await Category.find() // []
     res.render('categories', {
         title: 'Categories',
